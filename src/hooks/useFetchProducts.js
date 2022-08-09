@@ -16,23 +16,25 @@ export const useFetchProducts = (sortVal, selectedCategory, productId) => {
         category = `category/${selectedCategory}`;
     }
 
-    useEffect(() => {
-        const fetchProducts = async () => {
-            let productData;
-            try {
-                setIsLoading(true);
-                if (productId && location.pathname.includes('product')) {
-                    productData = await products.get(productId);
-                } else {
-                    productData = await products.get(category?.concat(sort));
-                }
-                setData(productData.data);
-            } catch (error) {
-                setError(error);
-            } finally {
-                setIsLoading(false);
+
+    const fetchProducts = async () => {
+        let productData;
+        try {
+            setIsLoading(true);
+            if (productId && location.pathname.includes('product')) {
+                productData = await products.get(productId);
+            } else {
+                productData = await products.get(category?.concat(sort));
             }
-        };
+            setData(productData.data);
+        } catch (error) {
+            setError(error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    useEffect(() => {
         fetchProducts();
     }, [sortVal, selectedCategory]);
 

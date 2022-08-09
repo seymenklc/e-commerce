@@ -6,18 +6,19 @@ export const useFetchCategories = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
+    const fetchCategories = async () => {
+        try {
+            setIsLoading(true);
+            const { data } = await products.get('/categories');
+            setData(data);
+        } catch (error) {
+            setError(error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     useEffect(() => {
-        const fetchCategories = async () => {
-            try {
-                setIsLoading(true);
-                const { data } = await products.get('/categories');
-                setData(data);
-            } catch (error) {
-                setError(error);
-            } finally {
-                setIsLoading(false);
-            }
-        };
         fetchCategories();
     }, []);
 
